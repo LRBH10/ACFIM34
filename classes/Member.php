@@ -34,34 +34,74 @@ class Member {
 
   /**
    * 
+   * @return ArrayObject of Member
+   */
+  public static function FindAll() {
+    $con = dbManager::getInstance();
+    $req = $con->prepare("select * from member");
+    dbManager::executeReq($req);
+
+    $i = 0;
+    $members = array();
+    if ($req->rowCount() > 0) {
+      $members[$i] = new Member();
+      while ($row = $req->fetch(PDO::FETCH_ASSOC)) {
+        Member::GetFromRow($members[$i], $row);
+      }
+      $i++;
+    }
+
+    return $members;
+  }
+
+  private static function GetFromRow($mem,$row) {
+    //var_dump($row);
+    $mem->id = $row['member_id'];
+    $mem->firstname = $row['firstname'];
+    $mem->lastname = $row['lastname'];
+    $mem->email = $row['email'];
+    $mem->phonenumber = $row['phone'];
+    $mem->proffession = $row['proffession'];
+    $mem->password = $row['password'];
+    $mem->dateinscription = $row['dateinscription'];
+    $mem->activated = $row['activated'];
+  }
+
+  /**
+   * 
    * @param String $email
    * @return Member Description
    */
   public static function FindByEmail($email) {
     $con = dbManager::getInstance();
     $req = $con->prepare("select * from member where email='$email'");
-
-    if(!$req->execute()){
-       var_dump($req);
-      echo $req->errorCode()."<br>";
-      print_r($req->errorInfo());
-    }
-
-    
+    dbManager::executeReq($req);
     
     if ($req->rowCount() > 0) {
       $mem = new Member();
       while ($row = $req->fetch(PDO::FETCH_ASSOC)) {
-        //var_dump($row);
-        $mem->id = $row['member_id'];
-        $mem->firstname = $row['firstname'];
-        $mem->lastname = $row['lastname'];
-        $mem->email = $row['email'];
-        $mem->phonenumber = $row['phone'];
-        $mem->proffession = $row['proffession'];
-        $mem->password = $row['password'];
-        $mem->dateinscription = $row['dateinscription'];
-        $mem->activated = $row['activated'];
+        Member::GetFromRow($mem, $row);
+      }
+      return $mem;
+    }
+    return null;
+  }
+  
+  
+  /**
+   * 
+   * @param long $id
+   * @return Member Description
+   */
+  public static function FindByID($id) {
+    $con = dbManager::getInstance();
+    $req = $con->prepare("select * from member where member_id=$id");
+    dbManager::executeReq($req);
+    
+    if ($req->rowCount() > 0) {
+      $mem = new Member();
+      while ($row = $req->fetch(PDO::FETCH_ASSOC)) {
+        Member::GetFromRow($mem, $row);
       }
       return $mem;
     }
@@ -71,26 +111,20 @@ class Member {
   public function save() {
     $con = dbManager::getInstance();
     $savereq = "'','" . $this->firstname . "','" . $this->lastname . "','" . $this->email . "','" . $this->phonenumber . "','" . $this->proffession . "','" . $this->password . "',now(),0";
-    
-    
     $req = $con->prepare("insert into Member values ($savereq)");
-        
-    if(!$req ->execute()){
-      var_dump($req);
-      echo $req->errorCode()."<br>";
-      print_r($req->errorInfo());
-      
-    }
-    
-    
-    
-    
-    
-    
-    
-  }
-  
-  
-  
 
+    dbManager::executeReq($req);
+  }
+
+  public function update() {
+    $con = dbManager::getInstance();
+    $req = $con->prepare("update Member set firstname='$this->firstname',"
+            . " lastname='$this->lastname',"
+            . " email='$this->email',"
+            . " phone='$this->phonenumber',"
+            . " proffession='$this->proffession',"
+            . " activated='$this->activated' "
+            . " where member_id=$this->id");
+    dbManager::executeReq($req);
+  }
 }

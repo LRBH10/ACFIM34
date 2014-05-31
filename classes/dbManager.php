@@ -42,7 +42,20 @@ class dbManager {
   
   public static function testBD(){
     echo dbManager::getInstance()->exec("select * from member");
-    
+  }
+  
+  /**
+   * 
+   * @param PDOStatement $req
+   * @return PDOStatement
+   */
+  public static function executeReq($req){
+    if (!$req->execute()) {
+      var_dump($req);
+      echo $req->errorCode() . "<br>";
+      print_r($req->errorInfo());
+    }
+    return $req;
   }
 
 }
