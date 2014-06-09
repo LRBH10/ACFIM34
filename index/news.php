@@ -4,43 +4,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/**
+ * 
+ * @param News $news
+ */
+function printternews($news) {
+  echo $news->contenu.'<br>';
+  echo '<div class="pull-right small text-info">' . translate(DateTime::createFromFormat("Y-m-d", $news->date)->format("l, d F Y")) . '</div>';
+  echo '<hr>';
+}
+
+echo '<div class=" thumbnail ">';
+
+$news = News::FindAll();
+foreach ($news as $value) {
+  printternews($value);
+}  
+echo '</div>';
 ?>
 
 
-
-<h1> News </h1> 
-
-
-
-<div class=" thumbnail row">
-  <div class="col-lg-6 col-md-6 col-sm-6">
-    <img class="img-responsive img-rounded pull-left" src="http://placehold.it/50x50">
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-6 ">
-    New1 <br/>
-    <div class="right"> 24/04/2014  </div>
-  </div>
-
-</div>
-
-<div class=" thumbnail row">
-  <div class="col-lg-5 col-md-5 col-sm-5 vspace10">
-    New2 <br/>
-    <div class="right"> 24/04/2014  </div>
-  </div>
-  <div class="col-lg-5 col-md-5 col-sm-5">
-    <img class="img-responsive img-rounded" src="http://placehold.it/50x50">
-  </div>
-</div>
-
-<div class=" thumbnail row">
-  <div class="col-lg-5 col-md-5 col-sm-5 vspace10">
-    New3 <br/>
-    <div class="right"> 24/04/2014  </div>
-  </div>
-  <div class="col-lg-5 col-md-5 col-sm-5">
-    <img class="img-responsive img-rounded" src="http://placehold.it/50x50">
-  </div>
-</div>
 
 

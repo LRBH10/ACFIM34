@@ -20,13 +20,14 @@ function show($member) {
   echo '<td> ' . $member->proffession . '</td>';
   echo '<td> ' . $member->dateinscription . '</td>';
   echo '<td> ' . $member->activated . '</td>';
+  echo '<td> ' . $member->isAdmin . '</td>';
   echo '<td> ';
   // todo Options
   {
     if (!$member->activated) {
-      echo '<a class="btn btn-primary" href="admin.php?activatemember=' . $member->id . '"> Activer </a>';
+      echo '<a class="btn btn-primary" href="admin.php?kind=members&activatemember=' . $member->id . '"> Activer </a>';
     } else {
-      echo '<a class="btn btn-primary" href="admin.php?activatemember=' . $member->id . '"> Désactiver </a>';
+      echo '<a class="btn btn-primary" href="admin.php?kind=members&activatemember=' . $member->id . '"> Désactiver </a>';
     }
   }
   echo '</td>';
@@ -59,11 +60,14 @@ if (isset($_GET['activatemember'])) {
         <th> Proffession</th>
         <th> Date D'inscription</th>
         <th> Etat</th>
+        <th> Admin</th>
         <th> Options</th>
       </tr>
 
       <?php
       $members = Member::FindAll();
+      
+      
       foreach ($members as $value) {
         show($value);
       }

@@ -14,5 +14,13 @@
 include_once './classes/Member.php';
 include_once './classes/Event.php';
 include_once './classes/News.php';
+include_once './classes/Service.php';
 include_once './classes/dbManager.php';
+
+function dumber($param) {
+  echo '<pre>';
+  var_dump($param);
+  echo '</pre>';
+}
+
 ?>

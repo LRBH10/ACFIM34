@@ -7,21 +7,24 @@
  */
 
 /**
- * Description of News
+ * Description of Event
  *
  * @author Rabah
  */
-class News {
+class Service {
 
   var $id;
-  var $contenu;
-  var $date;
+  var $title;
+  var $description;
+  var $photopath;
   var $createby;
+  var $validateby;
+  var $old;
 
   public function save() {
     $con = dbManager::getInstance();
-    $savereq = "'','" . $this->date . "','" . $this->contenu . "','" . $this->createby . "',0";
-    $req = $con->prepare("insert into news values ($savereq)");
+    $savereq = "'','" . $this->title . "','" . $this->description . "','" . $this->validateby . "','" . $this->photopath . "','" . $this->createby . "',0";
+    $req = $con->prepare("insert into service values ($savereq)");
     dbManager::executeReq($req);
   }
 
@@ -31,74 +34,77 @@ class News {
    */
   public static function FindAll($all = false) {
     $con = dbManager::getInstance();
-    if(!$all){
-      $req = $con->prepare("select * from news where old=0");
+    if (!$all) {
+      $req = $con->prepare("select * from service where old=0");
     } else {
-      $req = $con->prepare("select * from news ");
+      $req = $con->prepare("select * from service ");
     }
     dbManager::executeReq($req);
 
     $i = 0;
-    $news = array();
+    $services = array();
     if ($req->rowCount() > 0) {
       while ($row = $req->fetch(PDO::FETCH_ASSOC)) {
-        $news[$i] = new News();
-        News::GetFromRow($news[$i], $row);
+        $services[$i] = new Service();
+        Service::GetFromRow($services[$i], $row);
         $i++;
       }
       
     }
 
-    return $news;
+    return $services;
   }
 
   /**
    * 
-   * @param Event $eve
+   * @param Service $eve
    * @param type $row
    */
   private static function GetFromRow($eve, $row) {
     //dumber($row);
-    $eve->id = $row['news_id'];
-    $eve->date = $row['date'];
-    $eve->contenu = $row['contenu'];
-    $eve->createby = $row['admin_id'];
+    $eve->id = $row['service_id'];
+    $eve->title = $row['title'];
+    $eve->description = $row['description'];
+    $eve->validateby = $row['admin_id'];
+    $eve->photopath = $row['photopath'];
+    $eve->createby = $row['user_id'];
     $eve->old = $row['old'];
   }
 
   /**
    * 
    * @param long $id
-   * @return Event Description
+   * @return Service Description
    */
   public static function FindByID($id) {
     $con = dbManager::getInstance();
-    $req = $con->prepare("select * from news where news_id=$id");
+    $req = $con->prepare("select * from service where service_id=$id");
     dbManager::executeReq($req);
 
     if ($req->rowCount() > 0) {
-      $news = new News();
+      $eve = new Service();
       while ($row = $req->fetch(PDO::FETCH_ASSOC)) {
-        News::GetFromRow($news, $row);
+        Service::GetFromRow($eve, $row);
       }
-      return $news;
+      return $eve;
     }
     return null;
   }
 
   public function update() {
     $con = dbManager::getInstance();
-    $req = $con->prepare("update news set "
-            . " contenu='$this->contenu',"
+    $req = $con->prepare("update service set title='$this->title',"
+            . " description='$this->description',"
             . " date='$this->date',"
-            . " old='$this->old' "
-            . " where news_id=$this->id");
+            . " old='$this->old',"
+            . " photopath='$this->photopath' "
+            . " where service_id=$this->id");
     dbManager::executeReq($req);
   }
 
   public function delete() {
     $con = dbManager::getInstance();
-    $req = $con->prepare("delete from news where news_id=$this->id");
+    $req = $con->prepare("delete from event where event_id=$this->id");
     dbManager::executeReq($req);
   }
 

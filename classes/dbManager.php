@@ -51,12 +51,15 @@ class dbManager {
    */
   public static function executeReq($req){
     if (!$req->execute()) {
+      echo '<pre>';
       var_dump($req);
       echo $req->errorCode() . "<br>";
       print_r($req->errorInfo());
+      echo '</pre>';
     }
     return $req;
   }
 
 }
-?>
+
+

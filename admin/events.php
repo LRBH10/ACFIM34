@@ -29,17 +29,19 @@ function show($eve) {
   echo '<td> ' . $eve->id . '</td>';
   echo '<td> ' . $eve->title . '</td>';
   echo '<td> ' . $eve->description . '</td>';
-  echo '<td> ' . $eve->nbrmax . '</td>';
   echo '<td> ' . $eve->date . '</td>';
+  echo '<td> ' . $eve->where . '</td>';
+  echo '<td> ' . $eve->nbrmax . '</td>';
   echo '<td> ' . $eve->photopath . '</td>';
   echo '<td> ' . $eve->createby . '</td>';
+  echo '<td> ' . $eve->old . '</td>';
   echo '<td> ';
   // todo Options
   {
     if (!$eve->old) {
-      echo '<a class="btn btn-primary" href="admin.php?archiveevent=' . $eve->id . '"> Archiver </a>';
+      echo '<a class="btn btn-primary" href="admin.php?kind=events&archiveevent=' . $eve->id . '"> Archiver </a>';
     } else {
-      echo '<a class="btn btn-primary" href="admin.php?archiveevent=' . $eve->id . '"> Désarchiver </a>';
+      echo '<a class="btn btn-primary" href="admin.php?kind=events&archiveevent=' . $eve->id . '"> Désarchiver </a>';
     }
   }
   echo '</td>';
@@ -49,33 +51,60 @@ function show($eve) {
 
 if (isset($_GET['archiveevent'])) {
   $id = $_GET['archiveevent'];
-  $event = Event::FindByID($id);
-  $event->old = !$member->old;
-  $event->update();
+  $news = Event::FindByID($id);
+  $news->old = !$news->old;
+  var_dump($news);
+  
+  $news->update();
 } else if (isset($_GET['createevent'])) {
   $title = validate('title', 5);
   $des = validate('description', 25);
+  $where = validate('where', 4);
   $date = $_POST['date'];
   $nbrmax = $_POST['nbrmax'];
 
 
-  $uploaddir = 'images/';
-  $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
+  $uploaddir = 'images/events/';
+  $uploadfile = $uploaddir . basename($_FILES['imageevent']['name']);
 
+
+  
   echo '<pre>';
-  if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
-    echo "Le fichier est valide, et a été téléchargé
-           avec succès. Voici plus d'informations :\n";
-  } else {
+  if (!move_uploaded_file($_FILES['imageevent']['tmp_name'], $uploadfile)) {
+
+    echo "Upload: " . $_FILES["imageevent"]["name"] . "<br>";
+    echo "Type: " . $_FILES["imageevent"]["type"] . "<br>";
+    echo "Size: " . ($_FILES["imageevent"]["size"] / 1024) . " kB<br>";
+    echo "Stored in: " . $_FILES["imageevent"]["tmp_name"];
+
+
     echo "Attaque potentielle par téléchargement de fichiers.
           Voici plus d'informations :\n";
+    echo 'Voici quelques informations de débogage :';
+    print_r($_FILES);
   }
+  
+  
+  $event = new Event();
+  $event->title = $title;
+  $event->description = $des;
+  $event->date = $date;
+  $event->where = $where;
+  $event->nbrmax = $nbrmax;
+  $event->photopath = $uploadfile;
+  $event->createby = $_SESSION['id'];
+  
+  
+  $event->save();
+  echo '</pre>';
+  
 }
 ?>
 
+
 <section class="container section">
 
-  <form class="form-signin " role="form"  method="post" action="admin.php?createevent">
+  <form class="form-signin " role="form"  method="post" action="admin.php?kind=events&createevent" enctype="multipart/form-data">
     <h2 class="form-signin-heading">Créer un nouveau Event</h2>
 
     <div class="row">
@@ -83,14 +112,14 @@ if (isset($_GET['archiveevent'])) {
       <div class="col-lg-6"> 
         <input name="title" class="form-control" placeholder="Titre" required autofocus>
 
-        <textarea name="description" class="form-control" rows="6" required > Description
-        </textarea>
+        <textarea name="description" class="form-control" rows="6" placeholder="Description de l'évenement" required ></textarea>
 
 
       </div>
       <div class="col-lg-6"> 
-        <input   name="image" type="file" required>
+        <input   name="imageevent" type="file" required>
         <input name="date" type="date" class="form-control"  required >
+        <input name="where" type="text" class="form-control" placeholder="L'adresse de l'evenement"  required >
         <input name="nbrmax" type="number" class="form-control" placeholder="Nbr maximum autorisé" required >
       </div>
     </div>
@@ -110,19 +139,20 @@ if (isset($_GET['archiveevent'])) {
       </caption>
       <tr>
         <th> #</th>
-        <th> Email</th>
-        <th> Prénom</th>
-        <th> Nom</th>
-        <th> N Téléphone </th>
-        <th> Proffession</th>
-        <th> Date D'inscription</th>
+        <th> Titre</th>
+        <th> Description</th>
+        <th> Date</th>
+        <th> Où</th>
+        <th> N Maximum </th>
+        <th> Photo</th>
+        <th> Creer par </th>
         <th> Etat</th>
         <th> Options</th>
       </tr>
 
       <?php
-      $members = Member::FindAll();
-      foreach ($members as $value) {
+      $events = Event::FindAll();
+      foreach ($events as $value) {
         show($value);
       }
       ?>

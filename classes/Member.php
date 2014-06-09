@@ -13,13 +13,6 @@
  */
 include_once './classes/Loader.php';
 
-class Admin {
-
-  var $pseudo;
-  var $password;
-
-}
-
 class Member {
 
   var $id;
@@ -31,7 +24,8 @@ class Member {
   var $password;
   var $dateinscription;
   var $activated;
-
+  var $isAdmin;
+  var $events =array();
   /**
    * 
    * @return ArrayObject of Member
@@ -44,16 +38,38 @@ class Member {
     $i = 0;
     $members = array();
     if ($req->rowCount() > 0) {
-      $members[$i] = new Member();
       while ($row = $req->fetch(PDO::FETCH_ASSOC)) {
+        $members[$i] = new Member();
         Member::GetFromRow($members[$i], $row);
+        $i++;
       }
-      $i++;
     }
-
-    return $members;
+  return $members;
   }
 
+  /**
+   * 
+   * @param Member $mem
+   */
+  private static function GetEvents($mem) {
+    $con = dbManager::getInstance();
+    $req = $con->prepare("select * from event_user where user_id=$mem->id");
+    dbManager::executeReq($req);
+    
+    
+    
+    while ($row = $req->fetch(PDO::FETCH_ASSOC)) {
+      $mem->events[]=$row['event_id'];
+    }
+    
+    
+    
+  }
+  /**
+   * 
+   * @param Member $mem
+   * @param type $row
+   */
   private static function GetFromRow($mem,$row) {
     //var_dump($row);
     $mem->id = $row['member_id'];
@@ -65,6 +81,8 @@ class Member {
     $mem->password = $row['password'];
     $mem->dateinscription = $row['dateinscription'];
     $mem->activated = $row['activated'];
+    $mem->isAdmin = $row['isAdmin'];
+    Member::GetEvents($mem);
   }
 
   /**
@@ -107,10 +125,31 @@ class Member {
     }
     return null;
   }
+  
+   
+  /**
+   * 
+   * @param String $name
+   * @return Member Description
+   */
+  public static function FindByName($name) {
+    $con = dbManager::getInstance();
+    $req = $con->prepare("select * from member where concat_ws(' ',lastname,firstname)='$name'");
+    dbManager::executeReq($req);
+    
+    if ($req->rowCount() > 0) {
+      $mem = new Member();
+      while ($row = $req->fetch(PDO::FETCH_ASSOC)) {
+        Member::GetFromRow($mem, $row);
+      }
+      return $mem;
+    }
+    return null;
+  }
 
   public function save() {
     $con = dbManager::getInstance();
-    $savereq = "'','" . $this->firstname . "','" . $this->lastname . "','" . $this->email . "','" . $this->phonenumber . "','" . $this->proffession . "','" . $this->password . "',now(),0";
+    $savereq = "'','" . $this->firstname . "','" . $this->lastname . "','" . $this->email . "','" . $this->phonenumber . "','" . $this->proffession . "','" . $this->password . "',now(),0,0";
     $req = $con->prepare("insert into Member values ($savereq)");
 
     dbManager::executeReq($req);
@@ -128,3 +167,4 @@ class Member {
     dbManager::executeReq($req);
   }
 }
+

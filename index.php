@@ -2,12 +2,10 @@
 session_start();
 
 include_once './classes/Loader.php';
-
-
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
   <head>
     <meta charset="utf-8">
@@ -30,12 +28,17 @@ include_once './classes/Loader.php';
 
   <body>
 
-    <?php
-    include './menu/menutop.php';
-    ?>
+<?php
+include './menu/menutop.php';
+?>
 
 
     <section class=" container" role="main">
+<?php
+if (isset($_GET['inscriptionOK'])) {
+  echo '<div class="alert alert-info" > Votre Inscription a été bien enregistrer et elle est en attente de validation par un Administrateur (un membre de l\'association) </div>';
+}
+?>
       <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-9">
 <?php
@@ -51,27 +54,8 @@ include './index/news.php';
 
       </div> 
     </section>
-    <!-- /.section -->
 
-    <hr/>
 
-    <section class=" container">
-      <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-4">
-          <h2>OLD Event </h2>
-          <p>
-            ...........
-          </p>
-        </div>
-        <div class="col-lg-5 col-md-5 col-sm-5">
-          <img class="img-responsive img-rounded" src="http://placehold.it/600x400">
-        </div>
-
-        <div class="  col-lg-3 col-md-3 col-sm-3">
-
-        </div>
-      </div>
-    </section>
 
 
 
