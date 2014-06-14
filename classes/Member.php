@@ -161,14 +161,14 @@ class Member {
   public function save() {
     $con = dbManager::getInstance();
     $savereq = "'','" . $this->firstname . "','" . $this->lastname . "','" . $this->email . "','" . $this->phonenumber . "','" . $this->proffession . "','" . $this->password . "',now(),0,0";
-    $req = $con->prepare("insert into Member values ($savereq)");
+    $req = $con->prepare("insert into member values ($savereq)");
 
     dbManager::executeReq($req);
   }
 
   public function update() {
     $con = dbManager::getInstance();
-    $req = $con->prepare("update Member set firstname='$this->firstname',"
+    $req = $con->prepare("update member set firstname='$this->firstname',"
             . " lastname='$this->lastname',"
             . " email='$this->email',"
             . " phone='$this->phonenumber',"

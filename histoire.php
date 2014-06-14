@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 include './classes/Loader.php';
 ?>
@@ -57,6 +56,41 @@ include './classes/Loader.php';
 
           </p>
         </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h3 class="alert alert-info">L’association est laïque et apolitique</h3>
+        </div>
+
+
+        <p> L’association a été enregistrée auprès de la préfecture de l’Hérault sous le nom de 
+          l’ASSOCIATION CULTURELLE IRAN. </p>
+
+        <p>Cette initiative a reçu l’accueil chaleureux des compatriotes français et iraniens, ce qui 
+          a conduit à une modification des statuts en 1996. Désormais l’association s’appelle 
+          « ACFIM ».</p> 
+
+        <p> <strong>ASSOCIATION CULTURELLE FRANCO-IRANIENNE DE MONTPELLIER. </strong></p>
+
+        <p> L’association compte une centaine de familles membres. </p>
+
+        <p>ACFIM organise : </p>
+
+        <ul>
+          <li>des réunions thématiques mensuelles, </li>
+          <li> des randonnées et visites de sites historiques, </li>
+          <li>des fêtes traditionnelles iraniennes, </li>
+          <li>des cours de français, </li>
+          <li>des cours de langue persane pour les enfants et adultes, </li>
+          <li>des cours de cuisine traditionnelle iranienne, </li>
+          <li>des cours d'informatique, </li>
+          <li>des cours de musique iranienne (tar, settar et chant), etc. </li>
+        </ul>
+
+        <p>ACFIM est dirigée par un conseil d’administration composé actuellement de 5 membres sous 
+          la présidence de Monsieur Abdolali HASHEMI-ARDESTANI. </p>
 
       </div>
 
@@ -152,8 +186,8 @@ include './classes/Loader.php';
           $members = Member::FindAll();
           foreach ($members as $member) {
             echo '<div class="well col-md-3">';
-            echo strtoupper($member->lastname) . ' ' . ucfirst(strtolower($member->firstname)).' <br>';
-            echo '<a href="mailto:"'.$member->email.'">'.$member->email.'</a>';
+            echo strtoupper($member->lastname) . ' ' . ucfirst(strtolower($member->firstname)) . ' <br>';
+            echo '<a href="mailto:"' . $member->email . '">' . $member->email . '</a>';
             echo '</div>';
           }
           ?>
@@ -161,7 +195,7 @@ include './classes/Loader.php';
       </div>
       <?php
     }
-    
+
     include './menu/footer.php';
     ?>
 
