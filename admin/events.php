@@ -32,9 +32,9 @@ function show($eve) {
   echo '<td> ' . $eve->date . '</td>';
   echo '<td> ' . $eve->where . '</td>';
   echo '<td> ' . $eve->nbrmax . '</td>';
-  echo '<td> ' . $eve->photopath . '</td>';
-  echo '<td> ' . $eve->createby . '</td>';
-  echo '<td> ' . $eve->old . '</td>';
+  echo '<td> ' . '<img width="70px" src="'.$eve->photopath.'" />' . '</td>';
+  echo '<td> ' . Member::affichage($eve->createby) . '</td>';
+  echo '<td> ' .($eve->old?"Archivée":"En cours") . '</td>';
   echo '<td> ';
   // todo Options
   {

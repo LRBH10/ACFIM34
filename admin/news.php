@@ -29,8 +29,8 @@ function show($news) {
   echo '<td> ' . $news->id . '</td>';
   echo '<td> ' . $news->contenu . '</td>';
   echo '<td> ' . $news->date . '</td>';
-  echo '<td> ' . $news->createby . '</td>';
-  echo '<td> ' . $news->old . '</td>';
+  echo '<td> ' . Member::affichage($news->createby) . '</td>';
+  echo '<td> ' . ($news->old?"Archivée":"En cours") . '</td>';
   echo '<td> ';
   // todo Options
   {
@@ -49,7 +49,7 @@ if (isset($_GET['archivenews'])) {
   $id = $_GET['archivenews'];
   $news = News::FindByID($id);
   $news->old = !$news->old;
-  var_dump($news);
+ 
 
   $news->update();
 } else if (isset($_GET['createnews'])) {
@@ -71,7 +71,7 @@ if (isset($_GET['archivenews'])) {
 <section class="container section">
 
   <form class="form-signin " role="form"  method="post" action="admin.php?kind=news&createnews" enctype="multipart/form-data">
-    <h2 class="form-signin-heading">Créer une nouvelle</h2>
+    <h2 class="form-signin-heading">Créer une actualité</h2>
 
     <div class="row">
 
@@ -84,7 +84,7 @@ if (isset($_GET['archivenews'])) {
     </div>
 
     <br>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Créer la nouvelle</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Créer l'actualité</button>
   </form>
 
 
@@ -95,7 +95,7 @@ if (isset($_GET['archivenews'])) {
   <div class="text-center">
     <table class="table table-bordered table-striped">
       <caption>
-        Liste des Nouvelles
+        Liste des actualités
       </caption>
       <tr>
         <th> #</th>

@@ -8,10 +8,10 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="images/acfim.png">
 
-    <title>Gallery - Association Culturelle Franco-Iranienne de Montpellier</title>
+    <title>Gallerie - Association Culturelle Franco-Iranienne de Montpellier</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Add custom CSS here -->
     <link href="css/modern-business.css" rel="stylesheet">
@@ -30,13 +30,13 @@
         <div class="row">
 
             <div class="col-lg-12">
-                <h1 class="page-header">Gallery 
+                <h1 class="page-header">Gallerie 
                     <small>des photos de nos evenement </small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="index.html">Acceuil</a>
                     </li>
-                    <li class="active">Gallery</li>
+                    <li class="active">Gallerie</li>
                 </ol>
             </div>
 

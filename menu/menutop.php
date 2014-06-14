@@ -29,9 +29,9 @@ if (isset($_SESSION['who'])) {
 <div class="container top center-block">
 
   <img  height="200px" width="280px" src="./images/montpellier1.jpg"  alt=""/> 
-  <img  height="200px" width="280px" src="./images/montpellier2.jpg"  alt=""/> 
+  <img  height="200px" width="280px" src="./images/Shiraz.jpg"  alt=""/> 
   <img  height="200px" width="280px" src="./images/montpellier4.jpg"  alt=""/> 
-  <img  height="200px" width="287px" src="./images/montpellier3.jpg"  alt=""/> 
+  <img  height="200px" width="287px" src="./images/persapolis.jpg"  alt=""/> 
 
 </div>
 
@@ -53,16 +53,17 @@ if (isset($_SESSION['who'])) {
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav navbar-right">
+        <!--li><a href="./gallery.php">Gallerie</a>
+        </li-->
+        <!--li><a href="./culture.php">Culture</a>
+        </li-->
+
+        <li><a href="adresses-utiles.php"> Adresses utiles</a>
+        </li>
+
         <li><a href="./history.php">Histoire</a>
         </li>
-        <li><a href="./gallery.php">Gallery</a>
-        </li>
-        <li><a href="./culture.php">Culture</a>
-        </li>
-
-        <li><a href="adress.php"> Adresses utils</a>
-        </li>
-
+        
         <li><a href="contact.php">Contact</a>
         </li>
 

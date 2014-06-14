@@ -17,13 +17,11 @@ include_once './classes/Loader.php';
     <title>Association Culturelle Franco-Iranienne de Montpellier</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
 
 
-    <!-- Add custom CSS here -->
-    <link href="css/modern-business.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  
   </head>
 
   <body>

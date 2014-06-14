@@ -31,6 +31,13 @@ class dbManager {
   }
 
   private static function init() {
+    /**
+     $mysql_host = "mysql3.000webhost.com";
+     $mysql_database = "a1690429_acfim34";
+     $mysql_user = "a1690429_acfim34";
+     $mysql_password = "rabah123";
+     */
+    
     $PARAM_hote = 'localhost'; // le chemin vers le serveur
     $PARAM_port = '3306';
     $PARAM_nom_bd = 'acfim34'; // le nom de votre base de données

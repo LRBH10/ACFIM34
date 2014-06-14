@@ -20,10 +20,13 @@ class Service {
   var $createby;
   var $validateby;
   var $old;
-
+  var $address;
+  var $phone;
+  var $url;
+  
   public function save() {
     $con = dbManager::getInstance();
-    $savereq = "'','" . $this->title . "','" . $this->description . "','" . $this->validateby . "','" . $this->photopath . "','" . $this->createby . "',0";
+    $savereq = "'','" . $this->title . "','" . $this->description . "','" . $this->validateby . "','" . $this->photopath . "','" . $this->createby . "',0,'".$this->address . "','".$this->phone . "','".$this->url."'";
     $req = $con->prepare("insert into service values ($savereq)");
     dbManager::executeReq($req);
   }
@@ -57,18 +60,22 @@ class Service {
 
   /**
    * 
-   * @param Service $eve
+   * @param Service $service
    * @param type $row
    */
-  private static function GetFromRow($eve, $row) {
+  private static function GetFromRow($service, $row) {
     //dumber($row);
-    $eve->id = $row['service_id'];
-    $eve->title = $row['title'];
-    $eve->description = $row['description'];
-    $eve->validateby = $row['admin_id'];
-    $eve->photopath = $row['photopath'];
-    $eve->createby = $row['user_id'];
-    $eve->old = $row['old'];
+    $service->id = $row['service_id'];
+    $service->title = $row['title'];
+    $service->description = $row['description'];
+    $service->validateby = $row['admin_id'];
+    $service->photopath = $row['photopath'];
+    $service->createby = $row['user_id'];
+    $service->old = $row['old'];
+    $service->address = $row['address'];
+    $service->phone = $row['phone'];
+    $service->url = $row['url'];
+    
   }
 
   /**
@@ -96,7 +103,10 @@ class Service {
     $req = $con->prepare("update service set title='$this->title',"
             . " description='$this->description',"
             . " date='$this->date',"
-            . " old='$this->old',"
+            . " old='$this->old'," 
+            . " address='$this->address',"
+            . " phone='$this->phone',"
+            . " url='$this->url',"
             . " photopath='$this->photopath' "
             . " where service_id=$this->id");
     dbManager::executeReq($req);
@@ -109,3 +119,4 @@ class Service {
   }
 
 }
+

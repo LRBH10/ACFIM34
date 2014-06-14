@@ -21,29 +21,27 @@ function validate($param, $minsize) {
 
 /**
  * 
- * @param Service $eve
+ * @param Service $service
  */
-function show($eve) {
+function show($service) {
   echo '<tr>';
-
-  echo '<td> ' . $eve->id . '</td>';
-  echo '<td> ' . $eve->title . '</td>';
-  echo '<td> ' . $eve->description . '</td>';
-  echo '<td> ' . $eve->photopath . '</td>';
-  echo '<td> ' . $eve->createby . '</td>';
-  echo '<td> ' . $eve->validateby . '</td>';
-  echo '<td> ' . $eve->old . '</td>';
+  echo '<td> ' . $service->id . '</td>';
+  echo '<td> ' . $service->title . '</td>';
+  echo '<td> ' . $service->description . '</td>';
+  echo '<td> ' . $service->address . '</td>';
+  echo '<td> ' . $service->url . '</td>';
+  echo '<td> ' . $service->phone . '</td>';
+  echo '<td> ' . '<img width="70px" src="' . $service->photopath . '" />' . '</td>';
+  echo '<td> ' . Member::affichage($service->createby) . '</td>';
+  echo '<td> ' . Member::affichage($service->validateby) . '</td>';
+  echo '<td> ' . $service->old . '</td>';
   echo '<td> ';
-  // todo Options
-  {
-    if (!$eve->old) {
-      echo '<a class="btn btn-primary" href="admin.php?kind=services&archiveservice=' . $eve->id . '"> Archiver </a>';
-    } else {
-      echo '<a class="btn btn-primary" href="admin.php?kind=services&archiveservice=' . $eve->id . '"> Désarchiver </a>';
-    }
+  if (!$service->old) {
+    echo '<a class="btn btn-primary" href="admin.php?kind=services&archiveservice=' . $service->id . '"> Archiver </a>';
+  } else {
+    echo '<a class="btn btn-primary" href="admin.php?kind=services&archiveservice=' . $service->id . '"> Désarchiver </a>';
   }
   echo '</td>';
-
   echo '</tr>';
 }
 
@@ -58,7 +56,10 @@ if (isset($_GET['archiveservice'])) {
   $title = validate('title', 5);
   $des = validate('description', 25);
 
-  $user = validate('user', 128);
+  $url = validate('url', 10);
+  $phonenumber = validate('phonenumber', 25);
+  $address = validate('address', 0);
+  $user = validate('user', 28);
 
   $userid = Member::FindByName($user);
 
@@ -84,13 +85,16 @@ if (isset($_GET['archiveservice'])) {
   }
 
 
-  $news = new Service();
-  $news->title = $title;
-  $news->description = $des;
-  $news->photopath = $uploadfile;
-  $news->createby = $userid->id;
-  $news->validateby = $_SESSION['id'];
-  $news->save();
+  $service = new Service();
+  $service->title = $title;
+  $service->description = $des;
+  $service->photopath = $uploadfile;
+  $service->createby = $userid->id;
+  $service->validateby = $_SESSION['id'];
+  $service->phone = $phonenumber;
+  $service->address = $address;
+  $service->url = $url;
+  $service->save();
   echo '</pre>';
 }
 ?>
@@ -110,6 +114,9 @@ if (isset($_GET['archiveservice'])) {
       <div class="col-lg-6"> 
         <input   name="imageevent" type="file" required>
         <input   name="user" placeholder="Creer Par" type="text" id="user" class="form-control"  required >
+        <input   name="address" placeholder="Adresse" type="text" id="user" class="form-control"  required >
+        <input   name="phonenumber" placeholder="Numéro de téléphone" type="tel" id="user" class="form-control"  required >
+        <input   name="url" placeholder="Site Web du Service" type="url" id="user" class="form-control"  required >
       </div>
     </div>
 
@@ -130,6 +137,9 @@ if (isset($_GET['archiveservice'])) {
         <th> #</th>
         <th> Titre</th>
         <th> Description</th>
+        <th> Adresse</th>
+        <th> Site Web</th>
+        <th> N de Téléphone </th>
         <th> Photo</th>
         <th> Creer par </th>
         <th> Valider par </th>
@@ -137,16 +147,17 @@ if (isset($_GET['archiveservice'])) {
         <th> Options</th>
       </tr>
 
-<?php
-$news = Service::FindAll(true);
-foreach ($news as $value) {
-  show($value);
-}
-?>
+      <?php
+      $news = Service::FindAll(true);
+      foreach ($news as $value) {
+        show($value);
+      }
+      ?>
     </table>
 
   </div>
 </section>
+
 
 
 

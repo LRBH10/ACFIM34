@@ -126,6 +126,17 @@ class Member {
     return null;
   }
   
+  
+  /**
+   * 
+   * @param long $id
+   * @return string
+   */
+  
+  public static function affichage($id) {
+    $member = Member::FindByID($id);
+    return strtoupper($member->lastname) .' '. ucfirst(strtolower($member->firstname));
+  }
    
   /**
    * 
@@ -162,7 +173,8 @@ class Member {
             . " email='$this->email',"
             . " phone='$this->phonenumber',"
             . " proffession='$this->proffession',"
-            . " activated='$this->activated' "
+            . " activated='$this->activated', "
+            . " isAdmin='$this->isAdmin' "
             . " where member_id=$this->id");
     dbManager::executeReq($req);
   }

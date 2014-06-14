@@ -82,5 +82,9 @@ foreach ($events as $value) {
   $i++;
 }
 
+if(count($events) ==0) {
+  echo " <h1>Pas d'événement pour le moment :) </h1>";
+}
+
 
 

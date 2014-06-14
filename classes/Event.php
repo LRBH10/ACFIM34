@@ -6,6 +6,10 @@
  * and open the template in the editor.
  */
 
+
+function imageShowAdmin($path) {
+  echo "<img  src='$path' />";
+}
 /**
  * Description of Event
  *

@@ -46,7 +46,7 @@ function validate($param, $minsize) {
     <title>Association Culturelle Franco-Iranienne de Montpellier</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
 
 
@@ -70,14 +70,13 @@ function validate($param, $minsize) {
       $password = validate('passwordlogin', 8);
       $who = Member::FindByEmail($email);
       
-      echo $email.' '.$password.' '.  md5($password);
-      dumber($who);
       
 
       if ($who != null && $who->password == md5($password) ) {
         if( $who->activated){
           $_SESSION['who'] = $email;
           $_SESSION['hash'] = md5($password);
+          header("Location:index.php");
         } else {
           echo '<div class=" alert alert-warning text-center" >  Votre compte est en attente d\'activation </div>';
         }
@@ -85,7 +84,7 @@ function validate($param, $minsize) {
         echo '<div class="alert alert-danger text-center" >Votre <strong>email</strong> ou votre <strong>mot de passe </strong> est érroné </div>';
       }
       
-      header("Location:index.php");
+      
     }
     ?>
 

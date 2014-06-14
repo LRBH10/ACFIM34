@@ -41,7 +41,7 @@ if ($event_id != NULL) {
       <title>Association Culturelle Franco-Iranienne de Montpellier</title>
 
       <!-- Bootstrap core CSS -->
-      <link href="css/bootstrap.css" rel="stylesheet">
+      <link href="css/bootstrap.min.css" rel="stylesheet">
 
 
 

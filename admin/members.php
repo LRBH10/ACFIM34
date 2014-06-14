@@ -19,8 +19,8 @@ function show($member) {
   echo '<td> ' . $member->phonenumber . '</td>';
   echo '<td> ' . $member->proffession . '</td>';
   echo '<td> ' . $member->dateinscription . '</td>';
-  echo '<td> ' . $member->activated . '</td>';
-  echo '<td> ' . $member->isAdmin . '</td>';
+  echo '<td> ' . ($member->activated?"Active":"Non Active") . '</td>';
+  echo '<td> ' . ($member->isAdmin?"Adminstrateur":"") . '</td>';
   echo '<td> ';
   // todo Options
   {
@@ -28,6 +28,14 @@ function show($member) {
       echo '<a class="btn btn-primary" href="admin.php?kind=members&activatemember=' . $member->id . '"> Activer </a>';
     } else {
       echo '<a class="btn btn-primary" href="admin.php?kind=members&activatemember=' . $member->id . '"> Désactiver </a>';
+    }
+
+    if ($_SESSION['who'] == "bibouh123@live.fr" && $member->email!="bibouh123@live.fr") {
+      if (!$member->isAdmin ) {
+        echo '<a class="btn btn-primary" href="admin.php?kind=members&adminmember=' . $member->id . '"> Admin </a>';
+      } else {
+        echo '<a class="btn btn-primary" href="admin.php?kind=members&adminmember=' . $member->id . '"> NoAdmin </a>';
+      }
     }
   }
   echo '</td>';
@@ -39,6 +47,14 @@ if (isset($_GET['activatemember'])) {
   $id = $_GET['activatemember'];
   $member = Member::FindByID($id);
   $member->activated = !$member->activated;
+  $member->update();
+}
+
+if (isset($_GET['adminmember'])) {
+  $id = $_GET['adminmember'];
+  $member = Member::FindByID($id);
+  $member->isAdmin = !$member->isAdmin;
+  dumber($member);
   $member->update();
 }
 ?>
@@ -64,14 +80,14 @@ if (isset($_GET['activatemember'])) {
         <th> Options</th>
       </tr>
 
-      <?php
-      $members = Member::FindAll();
-      
-      
-      foreach ($members as $value) {
-        show($value);
-      }
-      ?>
+<?php
+$members = Member::FindAll();
+
+
+foreach ($members as $value) {
+  show($value);
+}
+?>
     </table>
 
   </div>
