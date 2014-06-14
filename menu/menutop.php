@@ -61,7 +61,7 @@ if (isset($_SESSION['who'])) {
         <li><a href="adresses-utiles.php"> Adresses utiles</a>
         </li>
 
-        <li><a href="./history.php">Histoire</a>
+        <li><a href="./histoire.php">Histoire</a>
         </li>
         
         <li><a href="contact.php">Contact</a>

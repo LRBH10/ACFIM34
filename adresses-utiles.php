@@ -109,7 +109,12 @@ function printservice($service,$what) {
         printservice($value, $i % 2 == 0);
         $i++;
       }
+      
+      if($i == 0){
+        echo "<h1> Pas de Service </h1>";
+      }
       ?>
+      
 
     </section>
 
